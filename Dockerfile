@@ -1,16 +1,11 @@
-FROM node:18-slim
+# Use official nginx image as the base
+FROM nginx:alpine
 
-# Install http-server globally
-RUN npm install -g http-server
+# Remove the default nginx static assets
+RUN rm -rf /usr/share/nginx/html/*
 
-# Set working directory
-WORKDIR /usr/src/app
+# Copy your static files to the nginx html directory
+COPY . /usr/share/nginx/html
 
-# Copy all files (HTML, JS, MP3, etc.)
-COPY . .
-
-# Expose port 8080
-EXPOSE 8080
-
-# Start http-server, serving current directory
-CMD ["http-server", "-p", "8080"]
+# Expose port 80 (nginx default)
+EXPOSE 80
